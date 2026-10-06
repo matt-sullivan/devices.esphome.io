@@ -73,13 +73,14 @@ Latest revision uses BK7231N controller on the Tuya [CB3S module](https://develo
 |   P9  |         Fan Relay 2 |
 |   P8  |         Fan Relay 3 |
 
-Note: The pin numbering is different between series but the physical footprint positions are mostly the same. Only
-button 2 and the status led moved between series 2 to 3.
+Note: Pin numbering differs between series, but physical footprint positions are mostly the same. Only button 2 and
+the status LED moved from series 2 to series 3.
 
 The relays control the fan speed by switching the capacitance in series with the fan. The relay circuits are in
-parallel, relay 1 feeds the fan via 2µF, relay 2 with 1µF, relay 3 bypasses the capacitors.
-Speeds: low = relay 1,medium = relays 1+2 (equivalent to 3uF,) high = all three. The fan would run full speed with
-just relay 3, but the same gpio also controls the leds in the speed button.
+parallel: relay 1 feeds the fan through a 2 µF capacitor, relay 2 through a 1 µF capacitor, and relay 3 bypasses the
+capacitors.
+Speeds: low = relay 1, medium = relays 1+2 (equivalent to 3 µF), high = all three. The fan would run at full speed
+with just relay 3, but the same GPIO also controls the LEDs in the speed button.
 
 ## Getting it up and running
 
@@ -102,7 +103,7 @@ Follow the [official guide](https://github.com/tuya-cloudcutter/tuya-cloudcutter
 
 ### Manual Flashing
 
-Series 3 boards need to be flashed manually, you'll need a USB to serial adapter. Follow the disassembly steps below:
+Series 3 boards need to be flashed manually. You'll need a USB-to-serial adapter. Follow the disassembly steps below:
 
 1. Remove the front plastic face.
 2. Unscrew the exposed screws.

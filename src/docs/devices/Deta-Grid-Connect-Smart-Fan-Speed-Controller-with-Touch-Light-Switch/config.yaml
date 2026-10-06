@@ -101,7 +101,9 @@ binary_sensor:
       mode: INPUT
       inverted: true
     on_press:
-      - fan.cycle_speed: fan_1
+      - fan.cycle_speed:
+          id: fan_1
+          off_speed_cycle: false
 
 fan:
   - platform: speed
