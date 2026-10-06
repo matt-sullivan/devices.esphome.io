@@ -12,7 +12,7 @@ board:
 
 [Deta 6914HA][1] is a smart fan controller with light switch sold in Australia and New Zealand.
 
-[1]: https://detaelectrical.com.au/product/deta-grid-connect-smart-touch-fan-speed-controller-with-light-switch/
+[1]: https://detaelectrical.com.au/products/deta-gloss-white-grid-connect-smart-single-fan-speed-controller-with-touch-light-switch
 
 ### Series 1
 
@@ -24,7 +24,7 @@ Newer revision uses BK7231T controller on the Tuya WB3S module.
 
 ### Series 3
 
-Latest revision uses BK7231N controller on the Tuya [CB3S module](https://developer.tuya.com/docs/iot/cb3s?id=Kai94mec0s076)
+Latest revision uses BK7231N controller on the Tuya [CB3S module](https://developer.tuya.com/en/docs/iot/cb3s?id=Kai94mec0s076)
 
 ## GPIO Pinout
 
@@ -73,10 +73,13 @@ Latest revision uses BK7231N controller on the Tuya [CB3S module](https://develo
 |   P9  |         Fan Relay 2 |
 |   P8  |         Fan Relay 3 |
 
-Note: The pin numbering is different between series but the physical footprint positions are mostly the same. Only button 2 and the status led moved between series 2 to 3.
+Note: The pin numbering is different between series but the physical footprint positions are mostly the same. Only
+button 2 and the status led moved between series 2 to 3.
 
-The relays control the fan speed by switching the capacitance in series with the fan. The relay circuits are in parallel, relay 1 feeds the fan via 2µF, relay 2 with 1µF, relay 3 bypasses the capacitors.
-Speeds: low = relay 1, medium = relays 1+2 (equivalent to 3uF,) high = all three. The fan would run full speed with just relay 3, but the same gpio also controls the leds in the speed button.
+The relays control the fan speed by switching the capacitance in series with the fan. The relay circuits are in
+parallel, relay 1 feeds the fan via 2µF, relay 2 with 1µF, relay 3 bypasses the capacitors.
+Speeds: low = relay 1,medium = relays 1+2 (equivalent to 3uF,) high = all three. The fan would run full speed with
+just relay 3, but the same gpio also controls the leds in the speed button.
 
 ## Getting it up and running
 

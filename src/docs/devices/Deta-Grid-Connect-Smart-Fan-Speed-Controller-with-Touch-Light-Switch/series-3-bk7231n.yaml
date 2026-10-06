@@ -31,42 +31,42 @@ output:
     type: float
     write_action:
       - then:
-        - if:
-            condition:
-              lambda: return ((state > 0) && (state < .4));
-            then:
-              - switch.turn_on: relay_fan_1
-              - delay: 20ms
-              - switch.turn_off: relay_fan_2
-              - delay: 20ms
-              - switch.turn_off: relay_fan_3
-        - if:
-            condition:
-              lambda: return ((state > .4) && (state < .7));
-            then:
-              - switch.turn_on: relay_fan_1
-              - delay: 20ms
-              - switch.turn_on: relay_fan_2
-              - delay: 20ms
-              - switch.turn_off: relay_fan_3
-        - if:
-            condition:
-              lambda: return (state > .7);
-            then:
-              - switch.turn_on: relay_fan_1
-              - delay: 20ms
-              - switch.turn_on: relay_fan_2
-              - delay: 20ms
-              - switch.turn_on: relay_fan_3
-        - if:
-            condition:
-              lambda: return (state < 0.01);
-            then:
-              - switch.turn_off: relay_fan_1
-              - delay: 20ms
-              - switch.turn_off: relay_fan_2
-              - delay: 20ms
-              - switch.turn_off: relay_fan_3
+          - if:
+              condition:
+                lambda: return ((state > 0) && (state < .4));
+              then:
+                - switch.turn_on: relay_fan_1
+                - delay: 20ms
+                - switch.turn_off: relay_fan_2
+                - delay: 20ms
+                - switch.turn_off: relay_fan_3
+          - if:
+              condition:
+                lambda: return ((state > .4) && (state < .7));
+              then:
+                - switch.turn_on: relay_fan_1
+                - delay: 20ms
+                - switch.turn_on: relay_fan_2
+                - delay: 20ms
+                - switch.turn_off: relay_fan_3
+          - if:
+              condition:
+                lambda: return (state > .7);
+              then:
+                - switch.turn_on: relay_fan_1
+                - delay: 20ms
+                - switch.turn_on: relay_fan_2
+                - delay: 20ms
+                - switch.turn_on: relay_fan_3
+          - if:
+              condition:
+                lambda: return (state < 0.01);
+              then:
+                - switch.turn_off: relay_fan_1
+                - delay: 20ms
+                - switch.turn_off: relay_fan_2
+                - delay: 20ms
+                - switch.turn_off: relay_fan_3
 
 binary_sensor:
   - platform: gpio
@@ -74,7 +74,7 @@ binary_sensor:
     pin:
       number: P14
       mode: INPUT
-      inverted: True
+      inverted: true
     on_press:
       - light.toggle: light1
   - platform: gpio
@@ -82,7 +82,7 @@ binary_sensor:
     pin:
       number: P20
       mode: INPUT
-      inverted: True
+      inverted: true
     on_press:
       then:
         # After a power cycle speed is 0, so plain toggle would do nothing
@@ -100,7 +100,7 @@ binary_sensor:
     pin:
       number: P7
       mode: INPUT
-      inverted: True
+      inverted: true
     on_press:
       - fan.cycle_speed: fan_1
 
