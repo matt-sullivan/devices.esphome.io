@@ -3,7 +3,9 @@ title: Deta Grid Connect Smart Fan Speed Controller with Touch Light Switch
 date-published: 2021-02-02
 type: switch
 standard: au
-board: bk72xx
+board:
+  - esp8266
+  - bk72xx
 ---
 
 ## General Information
@@ -22,54 +24,59 @@ Newer revision uses BK7231T controller on the Tuya WB3S module.
 
 ### Series 3
 
-revision uses BK7231N controller on the Tuya [CB3S module](https://developer.tuya.com/docs/iot/cb3s?id=Kai94mec0s076)
+Latest revision uses BK7231N controller on the Tuya [CB3S module](https://developer.tuya.com/docs/iot/cb3s?id=Kai94mec0s076)
 
 ## GPIO Pinout
 
-### ESP8266 Version
+### Series 1 - ESP8266 Version
 
-| GPIO # | Component |
-|:------:|----------:|
-| GPIO00 |   Button2 |
-| GPIO01 |      None |
-| GPIO02 |      None |
-| GPIO03 |   LedLink |
-| GPIO04 |    Relay3 |
-| GPIO05 |   Button3 |
-| GPIO09 |      None |
-| GPIO10 |      None |
-| GPIO12 |      None |
-| GPIO13 |    Relay2 |
-| GPIO14 |    Relay1 |
-| GPIO15 |    Relay4 |
-| GPIO16 |   Button1 |
-|  FLAG  |      None |
+| GPIO # |           Component |
+| :----: | ------------------: |
+| GPIO00 | Button2 (fan power) |
+| GPIO01 |                None |
+| GPIO02 |                None |
+| GPIO03 |          Status Led |
+| GPIO04 |         Fan Relay 3 |
+| GPIO05 | Button3 (fan speed) |
+| GPIO09 |                None |
+| GPIO10 |                None |
+| GPIO12 |                None |
+| GPIO13 |         Fan Relay 1 |
+| GPIO14 |         Light Relay |
+| GPIO15 |         Fan Relay 2 |
+| GPIO16 |     Button1 (light) |
+|  FLAG  |                None |
 
-### BK72xx Version
+### Series 2 - BK7231T Version
 
-|  Pin # |     Component |
-|:------:|--------------:|
-|    P14 |       Button1 |
-|     P1 |       Button2 |
-|     P8 |       Button3 |
-|    P10 |           Led |
-|    P26 |   Light Relay |
-|     P6 |   Fan Relay 1 |
-|     P7 |   Fan Relay 2 |
-|     P9 |   Fan Relay 3 |
+| Pin # |           Component |
+| :---: | ------------------: |
+|  P14  |     Button1 (light) |
+|   P1  | Button2 (fan power) |
+|   P8  | Button3 (fan speed) |
+|  P10  |          Status Led |
+|  P26  |         Light Relay |
+|   P6  |         Fan Relay 1 |
+|   P7  |         Fan Relay 2 |
+|   P9  |         Fan Relay 3 |
 
-### BK7231N Version
+### Series 3 - BK7231N Version
 
-|  Pin # |     Component |
-|:------:|--------------:|
-|    P14 |       Button1 |
-|    P20 |       Button2 |
-|     P7 |       Button3 |
-|    P10 |           Led |
-|    P26 |   Light Relay |
-|     P6 |   Fan Relay 1 |
-|     P8 |   Fan Relay 2 |
-|     P9 |   Fan Relay 3 |
+| Pin # |           Component |
+| :---: | ------------------: |
+|  P14  |     Button1 (light) |
+|  P20  | Button2 (fan power) |
+|   P7  | Button3 (fan speed) |
+|  P22  |          Status Led |
+|  P26  |         Light Relay |
+|   P6  |         Fan Relay 1 |
+|   P9  |         Fan Relay 2 |
+|   P8  |         Fan Relay 3 |
+
+Note: The pin numbering is different between series but the physical footprint positions are mostly the same. Only button 2 and the status led moved between series 2 to 3.
+
+The relays control the fan speed by switching the capacitance in series with the fan. The relay circuits are in parallel, relay 1 feeds the fan via 2µF, relay 2 with 1µF, relay 3 bypasses the capacitors.
+Speeds: low = relay 1, medium = relays 1+2 (equivalent to 3uF,) high = all three. The fan would run full speed with just relay 3, but the same gpio also controls the leds in the speed button.
 
 ## Getting it up and running
 
@@ -92,7 +99,7 @@ Follow the [official guide](https://github.com/tuya-cloudcutter/tuya-cloudcutter
 
 ### Manual Flashing
 
-If you prefer to flash manually, you'll need a USB to serial adapter. Follow the disassembly steps below:
+Series 3 boards need to be flashed manually, you'll need a USB to serial adapter. Follow the disassembly steps below:
 
 1. Remove the front plastic face.
 2. Unscrew the exposed screws.
@@ -105,7 +112,12 @@ If you prefer to flash manually, you'll need a USB to serial adapter. Follow the
 ```yaml file=config.yaml
 ```
 
-### Series 2 (BK72xx)
+### Series 2 (BK7231T)
 
 ```yaml file=series-2-bk7231t.yaml
+```
+
+### Series 3 (BK7231N)
+
+```yaml file=series-3-bk7231n.yaml
 ```

@@ -1,51 +1,14 @@
 substitutions:
-  devicename: "deta-switchfan"
-  friendlyname: Deta Switch Fan
-  deviceid: deta-switchfan
-  devicemodel: Deta Grid Connect 6914HA Series 2
+  device_name: deta-fan-controller
+  friendly_name: "Deta Smart Fan Speed Controller"
 
 #################################
 
 esphome:
-  name: ${devicename}
+  name: ${device_name}
 
 bk72xx:
   board: generic-bk7231t-qfn32-tuya
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  ap:
-
-logger:
-
-web_server:
-
-captive_portal:
-
-api:
-
-ota:
-
-sensor:
-  - platform: wifi_signal
-    name: ${friendlyname} Wifi Signal Strength
-    update_interval: 60s
-  - platform: uptime
-    name: ${friendlyname} Uptime
-
-text_sensor:
-  - platform: wifi_info
-    ip_address:
-      name: ${friendlyname} IP
-    ssid:
-      name: ${friendlyname} SSID
-    bssid:
-      name: ${friendlyname} BSSID
-    mac_address:
-      name: ${friendlyname} Mac
-  - platform: version
-    name: ${friendlyname} ESPHome Version
 
 #################################
 status_led:
@@ -57,7 +20,7 @@ light:
   - platform: binary
     output: relay_light
     id: light1
-    name: ${friendlyname} Light
+    name: ${friendly_name} Light
 
 output:
   - platform: gpio
@@ -122,7 +85,16 @@ binary_sensor:
       inverted: True
     on_press:
       then:
-        - fan.toggle: fan_1
+        # After a power cycle speed is 0, so plain toggle would do nothing
+        - if:
+            condition:
+              lambda: return !id(fan_1).state && id(fan_1).speed == 0;
+            then:
+              - fan.turn_on:
+                  id: fan_1
+                  speed: 1
+            else:
+              - fan.toggle: fan_1
   - platform: gpio
     id: fan_speed_sensor
     pin:
@@ -130,43 +102,13 @@ binary_sensor:
       mode: INPUT
       inverted: True
     on_press:
-      then:
-        - if:
-            condition:
-              and:
-                - switch.is_on: relay_fan_1
-                - switch.is_off: relay_fan_2
-                - switch.is_off: relay_fan_3
-            then:
-              - fan.turn_on:
-                  id: fan_1
-                  speed: 2
-        - if:
-            condition:
-              and:
-                - switch.is_on: relay_fan_1
-                - switch.is_on: relay_fan_2
-                - switch.is_off: relay_fan_3
-            then:
-              - fan.turn_on:
-                  id: fan_1
-                  speed: 3
-        - if:
-            condition:
-              and:
-                - switch.is_on: relay_fan_1
-                - switch.is_on: relay_fan_2
-                - switch.is_on: relay_fan_3
-            then:
-              - fan.turn_on:
-                  id: fan_1
-                  speed: 1
+      - fan.cycle_speed: fan_1
 
 fan:
   - platform: speed
     id: fan_1
     output: fan_speed
-    name: ${friendlyname} Fan Speed
+    name: ${friendly_name} Fan Speed
     speed_count: 3
 
 switch:
@@ -179,47 +121,3 @@ switch:
   - platform: gpio
     id: relay_fan_3
     pin: P9
-  - platform: template
-    id: update_fan_speed
-    optimistic: True
-    turn_on_action:
-      then:
-        - delay: 200ms
-        - if:
-            condition:
-              and:
-                - switch.is_off: relay_fan_1
-                - switch.is_off: relay_fan_2
-                - switch.is_off: relay_fan_3
-            then:
-              - fan.turn_off: fan_1
-        - if:
-            condition:
-              and:
-                - switch.is_on: relay_fan_1
-                - switch.is_off: relay_fan_2
-                - switch.is_off: relay_fan_3
-            then:
-              - fan.turn_on:
-                  id: fan_1
-                  speed: 1
-        - if:
-            condition:
-              and:
-                - switch.is_on: relay_fan_1
-                - switch.is_on: relay_fan_2
-                - switch.is_off: relay_fan_3
-            then:
-              - fan.turn_on:
-                  id: fan_1
-                  speed: 2
-        - if:
-            condition:
-              and:
-                - switch.is_on: relay_fan_1
-                - switch.is_on: relay_fan_2
-                - switch.is_on: relay_fan_3
-            then:
-              - fan.turn_on:
-                  id: fan_1
-                  speed: 3

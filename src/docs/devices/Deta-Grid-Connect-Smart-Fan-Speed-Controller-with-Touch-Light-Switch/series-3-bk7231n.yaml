@@ -2,18 +2,19 @@ substitutions:
   device_name: deta-fan-controller
   friendly_name: "Deta Smart Fan Speed Controller"
 
-##########################
+#################################
 
 esphome:
   name: ${device_name}
 
-esp8266:
-  board: esp01_1m
+bk72xx:
+  board: generic-bk7231n-qfn32-tuya
 
+#################################
 status_led:
   pin:
-    number: GPIO3
-    inverted: True
+    number: P22
+    inverted: true
 
 light:
   - platform: binary
@@ -24,7 +25,7 @@ light:
 output:
   - platform: gpio
     id: relay_light
-    pin: GPIO14
+    pin: P26
   - platform: template
     id: fan_speed
     type: float
@@ -71,7 +72,7 @@ binary_sensor:
   - platform: gpio
     id: fan_light_sensor
     pin:
-      number: GPIO16
+      number: P14
       mode: INPUT
       inverted: True
     on_press:
@@ -79,7 +80,7 @@ binary_sensor:
   - platform: gpio
     id: fan_power_sensor
     pin:
-      number: GPIO00
+      number: P20
       mode: INPUT
       inverted: True
     on_press:
@@ -97,7 +98,7 @@ binary_sensor:
   - platform: gpio
     id: fan_speed_sensor
     pin:
-      number: GPIO05
+      number: P7
       mode: INPUT
       inverted: True
     on_press:
@@ -113,10 +114,10 @@ fan:
 switch:
   - platform: gpio
     id: relay_fan_1
-    pin: GPIO13
+    pin: P6
   - platform: gpio
     id: relay_fan_2
-    pin: GPIO15
+    pin: P9
   - platform: gpio
     id: relay_fan_3
-    pin: GPIO04
+    pin: P8
